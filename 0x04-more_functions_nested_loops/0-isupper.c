@@ -1,20 +1,18 @@
 #include "main.h"
 
 /**
- * main - Prints Holberton as a message.
- *
- * Return: Always 0 (Success)
+ * _isupper - checks if parameter is an uppercase character.
+ * @c: input character.
+ * Return: 1 if is an uppercase character, 0 in other case.
  */
-int main(void)
+int _isupper(int c)
 {
-	int str[] = {95, 112, 117, 116, 99, 104, 97, 114};
-	int count, sz;
-
-	sz = sizeof(str) / sizeof(int);
-	for (count = 0; count < sz; count++)
+	if (c >= 65 && c <= 90)
 	{
-		_putchar(str[count]);
+		return (1);
 	}
-	_putchar('\n');
-	return (0);
+	else
+	{
+		return (0);
+	}
 }
