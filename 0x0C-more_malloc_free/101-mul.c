@@ -1,118 +1,114 @@
 #include "main.h"
+#include <stdio.h>
+#include <string.h>
 
 /**
- * main - Entry point
- * @argc: Number of command-line arguments
- * @argv: Array of command-line arguments
- * Return: 0 on success, 98 on failure
+ * _isdigit - checks if character is digit
+ * @c: the character to check
+ *
+ * Return: 1 if digit, 0 otherwise
  */
-int main(int argc, char *argv[])
+int _isdigit(int c)
 {
-    if (argc != 3 || !is_positive_number(argv[1]) || !is_positive_number(argv[2]))
-    {
-        _puts("Error");
-        exit(98);
-    }
-
-    char *num1 = argv[1];
-    char *num2 = argv[2];
-
-    multiply_and_print(num1, num2);
-
-    return (0);
+	return (c >= '0' && c <= '9');
 }
 
 /**
- * is_positive_number - Check if a string is a positive number
- * @str: The string to check
- * Return: 1 if it's a positive number, 0 otherwise
- */
-int is_positive_number(char *str)
-{
-    while (*str)
-    {
-        if (*str < '0' || *str > '9')
-            return (0);
-        str++;
-    }
-    return (1);
-}
-
-/**
- * multiply_and_print - Multiply two positive numbers and print the result
- * @num1: The first number as a string
- * @num2: The second number as a string
- */
-void multiply_and_print(char *num1, char *num2)
-{
-    int len1 = _strlen(num1);
-    int len2 = _strlen(num2);
-    int len_result = len1 + len2;
-    int *result = malloc(sizeof(int) * len_result);
-    int i, j, carry, prod;
-
-    if (result == NULL)
-    {
-        _puts("Error");
-        exit(98);
-    }
-
-    _memset(result, 0, len_result * sizeof(int));
-
-    for (i = len1 - 1; i >= 0; i--)
-    {
-        carry = 0;
-        for (j = len2 - 1; j >= 0; j--)
-        {
-            prod = (num1[i] - '0') * (num2[j] - '0') + result[i + j + 1] + carry;
-            carry = prod / 10;
-            result[i + j + 1] = prod % 10;
-        }
-        result[i + j + 1] += carry;
-    }
-
-    for (i = 0; i < len_result; i++)
-        _putchar(result[i] + '0');
-    _putchar('\n');
-
-    free(result);
-}
-
-/**
- * _strlen - Calculate the length of a string
- * @s: The input string
- * Return: The length of the string
+ * _strlen - returns the length of a string
+ * @s: the string whose length to check
+ *
+ * Return: integer length of string
  */
 int _strlen(char *s)
 {
-    int len = 0;
+	int i = 0;
 
-    while (s[len] != '\0')
-        len++;
-
-    return (len);
+	while (*s++)
+		i++;
+	return (i);
 }
 
 /**
- * _memset - Fill memory with a constant byte
- * @s: Pointer to the memory area
- * @b: The constant byte
- * @n: Number of bytes to fill
+ * big_multiply - multiply two big number strings
+ * @s1: the first big number string
+ * @s2: the second big number string
+ *
+ * Return: the product big number string
  */
-void _memset(void *s, int b, size_t n)
+char *big_multiply(char *s1, char *s2)
 {
-    char *ptr = s;
+	char *r;
+	int l1, l2, a, b, c, x;
 
-    while (n--)
-        *ptr++ = (char)b;
+	l1 = _strlen(s1);
+	l2 = _strlen(s2);
+	r = malloc(a = x = l1 + l2);
+	if (!r)
+		printf("Error\n"), exit(98);
+	while (a--)
+		r[a] = 0;
+
+	for (l1--; l1 >= 0; l1--)
+	{
+		if (!_isdigit(s1[l1]))
+		{
+			free(r);
+			printf("Error\n"), exit(98);
+		}
+		a = s1[l1] - '0';
+		c = 0;
+
+		for (l2 = _strlen(s2) - 1; l2 >= 0; l2--)
+		{
+			if (!_isdigit(s2[l2]))
+			{
+				free(r);
+				printf("Error\n"), exit(98);
+			}
+			b = s2[l2] - '0';
+
+			c += r[l1 + l2 + 1] + (a * b);
+			r[l1 + l2 + 1] = c % 10;
+
+			c /= 10;
+		}
+		if (c)
+			r[l1 + l2 + 1] += c;
+	}
+	return (r);
 }
 
+
 /**
- * _puts - Print a string to stdout
- * @str: The input string
+ * main - multiply two big number strings
+ * @argc: the number of arguments
+ * @argv: the argument vector
+ *
+ * Return: Always 0 on success.
  */
-void _puts(char *str)
+int main(int argc, char **argv)
 {
-    while (*str)
-        _putchar(*str++);
+	char *r;
+	int a, c, x;
+
+	if (argc != 3)
+		printf("Error\n"), exit(98);
+
+	x = _strlen(argv[1]) + _strlen(argv[2]);
+	r = big_multiply(argv[1], argv[2]);
+	c = 0;
+	a = 0;
+	while (c < x)
+	{
+		if (r[c])
+			a = 1;
+		if (a)
+			_putchar(r[c] + '0');
+		c++;
+	}
+	if (!a)
+		_putchar('0');
+	_putchar('\n');
+	free(r);
+	return (0);
 }
