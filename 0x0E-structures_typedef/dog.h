@@ -8,7 +8,7 @@
  * @owner: owner's name
  *
  * Description: just a lone dog struct in a big kitty world
- * */
+ */
 struct dog
 {
 	char *name;
