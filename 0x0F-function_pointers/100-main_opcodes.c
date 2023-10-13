@@ -1,26 +1,41 @@
-#include "function_pointers.h"
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 /**
- * main  check the code for The school students
- * @agrc: the number of args
- * @args: argument vecto
- *
- * Return: Always 0.
+ * main - Entry point of the program
+ * @argc: Argument count
+ * @argv: Argument vector
+ * Return: 0 on success, 1 on incorrect argument count,
+ * 2 on negative byte count
  */
-int main(int argc, char **agrv)
+int main(int argc, char *argv[])
 {
-	char *p = (char *)main;
-	int b;
-	
-	if (argc != 2
-		printf("Error\n"),exit(1);
-	b = atoi(argv[1]);
-	if (b < 0)
-	        pritf("Error\n"), exit(2);
+	if (argc != 2)
+	{
+		printf("Error\n");
+		return (1);
+	}
 
-	while (b--)
-                printf("%02hx%s", *p++, b ? " " : "\n"):
+	int num_bytes = atoi(argv[1]);
+
+	if (num_bytes < 0)
+	{
+		printf("Error\n");
+		return (2);
+	}
+
+
+	unsigned char *opcode_ptr = (unsigned char *)main;
+
+	int i;
+
+	for (i = 0; i < num_bytes; i++)
+	{
+		printf("%02x", opcode_ptr[i]);
+		if (i < num_bytes - 1)
+			printf(" ");
+	}
+	printf("\n");
+
 	return (0);
-}	
+}
